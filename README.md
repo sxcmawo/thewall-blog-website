@@ -1,5 +1,6 @@
 # thewall-blog-website
 Blog website using flask
+
 This was a project for my Python course at university.
 
 For frontend there was used HTML5, Bootstrap/CSS, javascritp
