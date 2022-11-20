@@ -1,0 +1,35 @@
+{% extends 'base.html'%}
+{% block title %} Login {% endblock%}
+{% block message1_style%}margin-top:17px;{% endblock %}
+{% block message2_style%}margin-top:17px;{% endblock %}
+{% block content_style%}margin-top:120px;{% endblock%}
+{% block class%}container{%endblock%}
+{% block content %}
+
+
+<form action="{{url_for('login')}}" method="post">
+
+    <h3 align="center">Login</h3>
+
+
+    <div>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" class="form-control" placeholder="Enter Email">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password">
+
+        <br>
+
+        <div align="center">
+            <button class="btn btn-secondary" type="submit">Login</button>
+        </div>
+
+    </div>
+
+
+
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html'%}
+{% block title %}Home{% endblock %}
+{% block message1_style%}margin-top:17px;{% endblock %}
+{% block message2_style%}margin-top:17px;{% endblock %}
+
+{%block content%}
+
+
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='about-bg.jpg') }}')">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading" style="transform:translate(0px,25px);">
+              <h1>{% block header%}Posts{% endblock %}</h1>
+              <h2 class="subhedaing">{% block subtitle %} {% endblock %}</h2>
+              <br>
+              {% block button%}
+              <div align="center">
+                <a href="/add"><button type="button" class="btn btn-secondary btn-lg">Create Post</button></a>
+              </div>
+              {% endblock %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+{% for post in posts %}
+<div class="container">
+  <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h1>{{ post.title }}</h1>
+        <div>
+          <span style="font-size: 2em;" id="likes-count-{{post.id}}">{{post.likes|length}}</span>
+          {% if user.id in post.likes|map(attribute="author")|list %}
+            <i class="fas fa-heart fa-2x" id="like-button-{{post.id}}" onclick="like({{post.id}})"></i>
+          {% else %}
+            <i class="far fa-heart fa-2x" id="like-button-{{post.id}}" onclick="like({{post.id}})"></i>
+          {% endif %}
+          {% if user.id == post.author %}
+          <div class="btn-group" style="margin-bottom:20px;">
+            <button class="btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="dropdown"></button>
+            <ul class="dropdown-menu">
+              <li><a href="/delete-post/{{post.id}}" class="dropdown-item">Delete</a></li>
+            </ul>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        <p class="card-text">{{post.subtitle}}</p>
+      </h3>
+      <h6 class="meta text-muted">Posted by
+        <a href="/posts/{{ post.user.username }}">{{ post.user.username }}</a>
+          on {{ post.date_created.strftime('%B %d, %Y') }}
+      </h6>
+        <div class="collapse" id="comments-{{post_id}}">
+          <div class="card">
+            <div class="card-body" id="comments-expanded-{{post_id}}">
+              {% for comment in post.comments %}
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <a href="/posts/{{comment.user.username}}">{{comment.user.username}}</a>: {{comment.text}}
+                  </div>
+                  <div class="text-muted">
+                    <small>{{comment.date_created}}</small>
+                    {% if user.id == comment.author or user.id == post.author%}
+                    <div class="btn-group">
+                      <button class="btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="dropdown" ></button>
+                      <ul class="dropdown-menu">
+                        <li><a href="/delete-comment/{{comment.id}}" class="dropdown-item">Delete</a></li>
+                      </ul>
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <p class="card-text">
+          {% if post.comments|length > 0 %}
+            <a data-bs-toggle="collapse" href="#comments-{{post_id}}" role="button">
+              <small> View {{post.comments|length}} Comments</small>
+            </a>
+          {% else %}
+            <small class="text-muted">No comments</small>
+          {% endif %}
+        </p>
+        <form class="input-group mb-3" method="post" action="/create-comment/{{post.id}}">
+            <input type="text" id="text" name="text" class="form-control" placeholder="You can comment here!">
+            <button type="submit" class="btn btn-secondary">Comment</button>
+        </form>
+      <a href="/post-read/{{post.id}}" class="btn btn-secondary">Read</a>
+    </div>
+  </div>
+</div>
+<br>
+<hr>
+<br>
+{% endfor %}
+{% endblock%}

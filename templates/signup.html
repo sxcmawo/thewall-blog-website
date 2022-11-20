@@ -1,0 +1,46 @@
+{% extends 'base.html'%}
+{% block title %} Sign Up {% endblock%}
+{% block message1_style%}margin-top:17px;{% endblock %}
+{% block message2_style%}margin-top:17px;{% endblock %}
+{% block content_style%}margin-top:120px;{% endblock%}
+{% block class%}container{%endblock%}
+{% block content %}
+
+<form action="{{url_for('signup')}}" method="post">
+
+    <h3 align="center">Sign Up</h3>
+
+
+    <div>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" class="form-control" placeholder="Enter Email">
+
+        <br>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Enter Username">
+
+        <br>
+
+        <label for="password1">Password:</label>
+        <input type="password" id="password1" name="password1" class="form-control" placeholder="Enter Password">
+
+        <br>
+
+        <label for="password2">Password Again:</label>
+        <input type="password" id="password2" name="password2" class="form-control" placeholder="Enter Password Again">
+
+        <br>
+
+        <div align="center">
+            <button class="btn btn-secondary" type="submit">Sign Up</button>
+        </div>
+
+    </div>
+
+
+
+
+</form>
+
+{% endblock %}
